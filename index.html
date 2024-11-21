@@ -1,0 +1,417 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zen-dynamic-form</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="zen-dynamic-form">Zen Dynamic Form</h1>
+<p><strong>Component Name:</strong>  ZenDynamicForm.<br>
+<strong>Module Name:</strong> Zen Core</p>
+<h2 id="introduction">Introduction</h2>
+<p>Dynamic form display form group with controls that satisfy maximum conditions. It contains all the UI elements available in ZenUi.</p>
+<h2 id="sample-images">Sample Images</h2>
+<p><img src="https://dev.images.getzenbasket.com/STORE_38/products/image3_1732181904255_S38.png" alt="enter image description here"></p>
+<h2 id="properties">Properties</h2>
+<p><strong>1. @Input() groupDetails = DynamicFormGroup[][];</strong><br>
+It is used to display form group with its corresponding controls.</p>
+<pre><code>//HTML
+&lt;zen-dynamic-form [groupDetails]="groupDetails"&gt;
+//TS
+groupDetails: DynamicFormGroup[][] = [
+	[{
+			groupName:  'Basic Info',
+			controls: [
+				[
+					{
+					type:  DynamicFormControls.TEXT,
+					controlName:  'title',
+					controlLabel:  'Title',
+					validatorDetails: [
+					{ validatorType:  ValidatorTypes.required, 
+					validatorMessage:  'Title is required' },
+					{ validatorType:  ValidatorTypes.maxLength, validatorValue:  50, 
+					validatorMessage:  'Title should not exceed 50 characters' },
+					]
+					},
+					{
+					type:  DynamicFormControls.NUMERIC,
+					controlName:  'discountValue',
+					controlLabel:  'Discount Value',
+					validatorDetails: [
+					{ validatorType:  ValidatorTypes.required, 
+					validatorMessage:  'Discount value is 	required' },
+					{ validatorType:  ValidatorTypes.min, validatorValue:  1,
+					validatorMessage:  'Discount value should be starts from 1' },
+					{ validatorType:  ValidatorTypes.max, validatorValue:  100, 
+					validatorMessage:  'Discount value should not exceed 100' },
+					]
+					}
+				]]]]
+</code></pre>
+<p><img src="https://dev.images.getzenbasket.com/STORE_38/products/image2_1732081607675_S38.webp" alt="enter image description here"></p>
+<p><strong>2. @Output() onFormChange = new  EventEmitter();</strong><br>
+It is used to emit formgroup details when there is changes in formgroup.</p>
+<pre><code>//HTML
+&lt;zen-dynamic-form [groupDetails]="groupDetails" (onFormChange)="onChange($event)"/&gt; 
+//TS
+onChange(event: any) {
+	console.log(event);
+}
+</code></pre>
+<p><strong>3. @Input() updateProperty = new  EventEmitter();</strong><br>
+It is used to update formgroup based on your condition.</p>
+<pre><code>//HTML
+&lt;zen-dynamic-form  [groupDetails]="groupDetails"  (onFormChange)="onChange($event)"
+[updateProperty]="updateProperty"&gt;
+//TS
+updateProperty = new  EventEmitter&lt;UpdateForm&gt;();
+this.updateProperty.emit({disableControl:  'title'}); // Disable the title control based on your condition.
+</code></pre>
+<p><strong>4. @Output() onButtonClick = new  EventEmitter();</strong><br>
+It is used to emitvalue when the button in group header is clicked.</p>
+<pre><code>//HTML
+&lt;zen-dynamic-form  [groupDetails]="groupDetails"  (onFormChange)="onChange($event)"
+(onButtonClick)="onButtonClick($event)"&gt;
+//TS
+groupDetails: DynamicFormGroup[][] = [[
+	{
+		groupName:  'Basic Info',
+		buttonDetails: [
+			{
+				buttonText:  'Save',
+				buttonClass:  'form-primary-button',
+				emitValue:  'onSave'
+				}
+		],
+		controls: [[....]]
+	}
+]];
+
+//On Button click
+onButtonClick(event:any){
+	if(event === 'onSave'){
+		//Your logic
+	}
+}
+</code></pre>
+<h2 id="control-types">Control Types</h2>
+<p><strong>1. TEXT</strong></p>
+<pre><code>{
+    type:  DynamicFormControls.TEXT,
+    controlName:  'title',
+    controlLabel:  'Title',
+    validatorDetails: [
+    { validatorType:  ValidatorTypes.required, validatorMessage:  'Title is required' },
+    { validatorType:  ValidatorTypes.maxLength, validatorValue:  50, validatorMessage:  'Title should not exceed 50 characters' }
+    ],
+    placeholder: 'Eg. #Christmas discount',
+    defaultValue: '',
+    iconDetails: {
+	    prefixIcon:{
+		    iconName: 'ICON_NAME',
+		    toolTip: '',
+		    generateRandomeCode: TRUE | FALSE
+	    },
+	    suffixIcon:{
+		    iconName: 'ICON_NAME',
+		    toolTip: '',
+		    generateRandomeCode: TRUE | FALSE
+	    },
+    }
+}
+</code></pre>
+<p><strong>2. PASSWORD</strong></p>
+<pre><code>{
+    type:  DynamicFormControls.PASSWORD,
+    controlName:  'password',
+    controlLabel:  'Password',
+    validatorDetails: [
+    { validatorType:  ValidatorTypes.required, validatorMessage:  'Password is required' },
+    ],
+}
+</code></pre>
+<p><strong>3. NUMERIC</strong></p>
+<pre><code>{
+    type:  DynamicFormControls.NUMERIC,
+    controlName:  'discountValue',
+    controlLabel:  'Discount value',
+    validatorDetails: [
+    { validatorType:  ValidatorTypes.required, validatorMessage:  'Discount value is required' },
+    ],
+    placeholder: 'Eg. #90',
+    defaultValue: 90,
+}
+</code></pre>
+<p><strong>4. RADIO</strong></p>
+<pre><code>{
+type:  DynamicFormControls.RADIO,
+controlName:  'isAppliesTo',
+options: [
+    { value:  'ALL', label:  'All products', isDefault:  true },
+    { value:  'SPECIFIC_PRODUCTS', label:  'Specific Products', isDefault:  false },
+    { value:  'SPECIFIC_CATEGORIES', label:  'Specifi Categories', isDefault:  false },
+],
+showRadioOnHorizontal: true
+}
+</code></pre>
+<p><strong>5. CHECKBOX</strong></p>
+<pre><code>{
+type:  DynamicFormControls.CHECKBOX,
+controlName:  'accept',
+controlLabel: 'Condition',
+checkBoxLabel: 'I have accept the term and policy'
+}
+</code></pre>
+<p><strong>6. SINGLEDROPDOWN</strong></p>
+<pre><code>{
+type:  DynamicFormControls.SINGLEDROPDOWN,
+controlName:  'country',
+controlLabel: 'Choose Country',
+options: [
+    { value:  'IN', label: 'India', isDefault:  false},
+    { value:  'US', label: 'United states', isDefault:  false },
+    { value:  'AF', label: 'Afghanistan', isDefault:  false },
+],
+dropDownSearch: false,
+validatorDetails: [
+    { validatorType:  ValidatorTypes.required, validatorMessage:  'Country is required' },
+],
+}
+</code></pre>
+<p><strong>7. MULTIDROPDOWN</strong></p>
+<pre><code>{
+type:  DynamicFormControls.MULTIDROPDOWN,
+controlName:  'products',
+controlLabel: 'Choose Products',
+options: [
+    { value:  '101', label: 'Apple', isDefault:  true},
+    { value:  '102', label: 'Ball', isDefault:  false },
+    { value:  '103', label: 'Cucumber', isDefault:  false },
+],
+dropDownSearch: false,
+validatorDetails: [
+    { validatorType:  ValidatorTypes.required, validatorMessage:  'Products is required' },
+],
+}
+</code></pre>
+<p><strong>8. DATEPICKER</strong></p>
+<pre><code>{
+type:  DynamicFormControls.DATEPICKER,
+controlName:  'startDate',
+controlLabel: 'Start date',
+dateOptions:{
+minStartDate: '11-12-2024',
+maxStartDate: '11-25-2024',
+defaultStartDate: '11-13-2024'
+},
+validatorDetails: [
+{ validatorType:  ValidatorTypes.required, validatorMessage:  'Start date is required' }
+]   
+}    
+</code></pre>
+<p><strong>9. TEXTAREA</strong></p>
+<pre><code>{
+    type:  DynamicFormControls.TEXTAREA,
+    controlName:  'address',
+    controlLabel:  'Address',
+    validatorDetails: [
+    { validatorType:  ValidatorTypes.required, validatorMessage:  'Discount value is required' },
+    ],
+    placeholder: 'Eg. #90, NGO B Colony',
+    defaultValue: '',
+}
+</code></pre>
+<p><strong>10. SLIDERTOGGLE</strong></p>
+<pre><code>{
+type:  DynamicFormControls.SLIDERTOGGLE,
+controlName:  'isEnable',
+controlLabel:  'Enable',
+defaultValue:  false,
+sliderToggleLabelPos?: 'before'
+}
+</code></pre>
+<h2 id="special-condition">Special Condition</h2>
+<p><strong>1. showOptionBasedOn?: ShowOptionBasedOn[];</strong><br>
+It is used to show option of dropdown if some other control is valid.</p>
+<pre><code>{
+type:  DynamicFormControls.SINGLEDROPDOWN,
+controlName:  'state',
+controlLabel:  'Choose State',
+options: [
+    { value:  'TN', label:  'Tamil Nadu', isDefault:  false },
+	{ value:  'KL', label:  'Kerala', isDefault:  false },
+	{ value:  'AN', label:  'Andhrapradesh', isDefault:  false },
+],
+dropDownSearch:  false,
+validatorDetails: [
+	{ validatorType:  ValidatorTypes.required, validatorMessage:  'State is required' },
+],
+showOptionBasedOn: [
+	{
+		controlName:  'country',
+		validatorMessage:  'Choose country to select state'
+	}
+]
+}
+</code></pre>
+<p><strong>2. dynamicValidatorDetails?: DynamicFormValidators[];</strong><br>
+It is used to set async form validators that should be built in validators or api based validators.</p>
+<pre><code>{
+type:  DynamicFormControls.TEXT,
+controlName:  'title',
+controlLabel:  'Title',
+validatorDetails: [
+{ validatorType:  ValidatorTypes.required, validatorMessage:  'Title is required' },
+{ validatorType:  ValidatorTypes.maxLength, validatorValue:  50, validatorMessage:  'Title should not
+exceed 50 characters' },
+],
+dynamicValidatorDetails: [
+//async validators with type InBuilt.
+{
+type:  'InBuilt',
+inBuiltValidators: {
+    validatorType:  ValidatorTypes.minLength,
+    validatorValue:  3,
+    validatorMessage:  'Title should contains minimum 3 charcters',
+},
+//async validators with type Async.
+{
+type:  'API',
+apiValidators: {
+validateUrl:  'your api url', //Api url to validate data
+controlName:  'title',//Name to send control value to api in body or params
+validateObject:  'isAvailble', //Validate error based on object emitted by api
+validatorMessage:  'Title should be unique', //Validator message to show in ui
+params: { storeId:  120 }, //Api param details
+method:  'GET'
+}
+}
+}
+]} as  DynamicFormDetails
+</code></pre>
+<p><strong>3. updateValidatorOn?: UpdateValidatorOn[];</strong><br>
+It is used to update validator of other control based on another control’s value.</p>
+<pre><code>{
+type:  DynamicFormControls.SINGLEDROPDOWN,
+controlName:  'discountType',
+controlLabel:  'Discount Type',
+options: [
+     {value:  'PERCENTAGE', label:  'Percentage', isDefault:  true },
+     { value:  'FIXED', label:  'Fixed', isDefault:  false }
+],
+validatorDetails: [
+	{ validatorType:  ValidatorTypes.required, validatorMessage:  'Discount type is required' }
+],
+updateValidatorOn: [
+	{
+		value:  'PERCENTAGE', compareBy:  '===',
+		changeValidator: [
+			{
+			controlName:  'discountValue',
+			validators: [
+				{ validatorType:  ValidatorTypes.required, validatorMessage:  'Discount value is required' },
+				{ validatorType:  ValidatorTypes.min, validatorValue:  1, validatorMessage:  'Discount value should be starts from 1' },
+				{ validatorType:  ValidatorTypes.max, validatorValue:  100, validatorMessage:  'Discount value should not exceed 100' },
+			]
+			}
+		]
+	},
+	{
+	value:  'FIXED',
+	compareBy:  '===',
+	changeValidator: [
+		{
+		controlName:  'discountValue',
+		validators: [
+			{ validatorType:  ValidatorTypes.required, validatorMessage:  'Discount value is required' },
+			{ validatorType:  ValidatorTypes.min, validatorValue:  0.1, validatorMessage:  'Discount value should be starts from 0.1' },
+			{ validatorType:  ValidatorTypes.max, validatorValue:  10000, validatorMessage:  'Discount value should not exceed 10000' },
+		]
+		}
+	]
+}
+]
+}
+</code></pre>
+<p><strong>4. setErrorBasedOn?: SetErrorBasedOn[];</strong><br>
+It is used to set custom validator to other controls based on another control’s value.</p>
+<pre><code>{
+type:  DynamicFormControls.DATEPICKER,
+controlLabel:  'End Date',
+controlName:  'endDate',
+validatorDetails: [
+{ validatorType:  ValidatorTypes.required, validatorMessage:  'End date is required' }
+],
+dateOptions: {
+minStartDate:  '11-12-2024',
+// defaultStartDate: '11-13-2024'
+},
+setErrorBasedOn: [
+{
+    basedOn:  'control',
+    controlName:  'startDate',
+    compareBy:  '&lt;',
+    setErrorName:  'greaterThanStartDate',
+    setErrorMessage:  'End date will be greater than start date',
+    isDate:  true
+}
+]
+}
+</code></pre>
+<p><strong>5. viewControlBasedOn?: ViewControlBasedOn[];</strong><br>
+It is used to view this control based on another control.</p>
+<pre><code>{
+type:  DynamicFormControls.SINGLEDROPDOWN,
+controlName:  'appliesToProducts',
+controlLabel:  'Choose specific products',
+options: [
+    { value:  'Product1', label:  'Product 1' },
+    { value:  'Product2', label:  'Product 2' }
+],
+validatorDetails: [
+	{ validatorType:  ValidatorTypes.required, validatorMessage:  'Specific products is required' }
+],
+viewControlBasedOn: [
+	{ controlName:  'isAppliesTo',basedOn: { isValue: ['SPECIFIC_PRODUCTS']}}
+],
+dropDownSearch:  true
+}
+</code></pre>
+<p><strong>6. viewContent?: TemplateRef;</strong><br>
+It can be used to display content of your component into dynamic form component. You can display your content inside group or control</p>
+<pre><code>//HTML
+&lt;zen-dynamic-form  [groupDetails]="groupDetails" (onButtonClick)="onButtonClick($event)"&gt;&lt;/zen-dynamic-form&gt;
+&lt;ng-template  #timePicker&gt;
+    Time picker will be listed here
+&lt;/ng-template&gt;
+
+//TS
+@ViewChild('timePicker', { static:  true }) timePicker!: TemplateRef&lt;any&gt;;
+ngAfterViewInit() {
+ this.groupDetails[2][0].controls[1][0].viewContent = this.timePicker; // Display in control
+ this.cdr.detectChanges();
+}
+</code></pre>
+<p><strong>6. buttonDetails?: ButtonDetails[];</strong><br>
+It is used to display buttons in group header.</p>
+<pre><code>{
+ groupName:  'Basic Info',
+ buttonDetails: [
+  {
+   buttonText:  'Save',
+   buttonClass:  'form-primary-button',
+   emitValue:  'onSave'
+   }
+],
+controls: [[..]]
+}
+</code></pre>
+</div>
+</body>
+
+</html>
