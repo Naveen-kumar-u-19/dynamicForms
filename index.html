@@ -99,6 +99,13 @@ onButtonClick(event:any){
 	}
 }
 </code></pre>
+<p><strong>5. @Input() groupName!: string | number;</strong><br>
+It is used to identify groupName for formArray</p>
+<pre><code>//HTML
+@for(group  of  groupDetails;track  $index){
+&lt;zen-dynamic-form  style="width:100%;"  [groupDetails]="group"  [groupName]="$index"(onFormChange)="onChange($event)"[updateProperty]="updateProperty"&gt;&lt;/zen-dynamic-form&gt;
+}
+</code></pre>
 <h2 id="control-types">Control Types</h2>
 <p><strong>1. TEXT</strong></p>
 <pre><code>{
