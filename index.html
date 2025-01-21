@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -59,7 +59,7 @@ It is used to emit formgroup details when there is changes in formgroup.</p>
 <pre><code>//HTML
 &lt;zen-dynamic-form [groupDetails]="groupDetails" (onFormChange)="onChange($event)"/&gt; 
 //TS
-onChange(event: any) {
+onChange(event: EmitFormGroup) {
 	console.log(event);
 }
 </code></pre>
@@ -234,6 +234,20 @@ controlLabel:  'Enable',
 defaultValue:  false,
 sliderToggleLabelPos?: 'before'
 }
+</code></pre>
+<p><strong>11. TimePicker</strong></p>
+<pre><code>{
+controlName:  'startTime',
+type:  DynamicFormControls.TIMEPICKER,
+controlLabel:  'Start Time',
+timePicker: {
+    minVal:  "12:00 AM",
+    maxVal:  "01:00 AM",
+},
+validatorDetails: [
+{ validatorType:  ValidatorTypes.required, validatorMessage:  'Start time is required' }
+]
+},
 </code></pre>
 <h2 id="special-condition">Special Condition</h2>
 <p><strong>1. showOptionBasedOn?: ShowOptionBasedOn[];</strong><br>
