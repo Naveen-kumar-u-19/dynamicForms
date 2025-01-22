@@ -305,14 +305,15 @@ inBuiltValidators: {
 //async validators with type Async.
 {
 type:  'API',
-apiValidators: {
-validateUrl:  'your api url', //Api url to validate data
-controlName:  'title',//Name to send control value to api in body or params
-validateObject:  'isAvailble', //Validate error based on object emitted by api
-validatorMessage:  'Title should be unique', //Validator message to show in ui
-params: { storeId:  120 }, //Api param details
-method:  'GET'
-}
+apiValidators:  {
+          queryDetail: CHECK_EXISTING_DISCOUNT,//GraphqlQuery
+          controlName:  'title', //Name to send control value to api
+          validateObject: 'alreadyExist',//Validate error based on object emitted by api
+          validatorMessage:  'Title should be unique', //Validator message to show in ui
+          inputDetails: { storeId:  268  }, //GraphQl Input detail
+	      method:  'QUERY', //Graphql Method
+          path: 'checkTimerExistence.exist' //Path to check with api response
+         }
 }
 }
 ]} as  DynamicFormDetails
