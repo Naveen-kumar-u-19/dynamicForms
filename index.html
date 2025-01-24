@@ -420,7 +420,13 @@ ngAfterViewInit() {
 </code></pre>
 <p><strong>6.  groupName and its properties</strong><br>
 It is used to display group name, icon near group name, description under group name , buttons in group header and slide toggle in group header.</p>
-<pre><code>{
+<pre><code>//HTML
+&lt;zen-dynamic-form  [groupDetails]="groupDetails"  (onButtonClick)="emitFromButton($event)"&gt;  &lt;/zen-dynamic-form&gt;
+emitFromButton(event: EmitFormClickEvent) {
+console.log(event);
+}
+//TS
+{
  groupName:  'Basic Info',
  groupNameIcon: { 
      iconName:  'info',
