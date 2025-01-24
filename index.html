@@ -418,17 +418,33 @@ ngAfterViewInit() {
  this.cdr.detectChanges();
 }
 </code></pre>
-<p><strong>6. buttonDetails?: ButtonDetails[];</strong><br>
-It is used to display buttons in group header.</p>
+<p><strong>6.  groupName and its properties</strong><br>
+It is used to display group name, icon near group name, description under group name , buttons in group header and slide toggle in group header.</p>
 <pre><code>{
  groupName:  'Basic Info',
+ groupNameIcon: { 
+     iconName:  'info',
+     iconClass: ['form-group-name-info-icon'],
+     toolTip:  'Info',
+     emitValue:  'OnClick'
+ },
+ groupNameDesc:  'Details like name, type and categories are listed here',
  buttonDetails: [
   {
    buttonText:  'Save',
-   buttonClass:  'form-primary-button',
+   buttonClass:  ['form-primary-button'],
    emitValue:  'onSave'
    }
 ],
+slideToggleDetails: [
+    { 
+    name: 'Enable',
+    disabled:  false,
+    position:  'before',
+    checked:  false,
+    toggleClass: ['zen-dynamic-slider-toggle']
+    },
+]
 controls: [[..]]
 }
 </code></pre>
