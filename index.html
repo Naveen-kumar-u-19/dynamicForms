@@ -103,7 +103,7 @@ It is used to identify groupName for formArray</p>
 &lt;zen-dynamic-form  style="width:100%;"  [groupDetails]="group"  [groupName]="$index"(onFormChange)="onChange($event)"[updateProperty]="updateProperty"&gt;&lt;/zen-dynamic-form&gt;
 }
 </code></pre>
-<p><strong>6. formUpdateDetails: WritableSignal&lt;{ [key: string]: any } | null&gt; = signal(null);</strong><br>
+<p><strong>6. formUpdateDetails: WritableSignal&lt;UpdateFormDetails | null&gt; = signal(null);</strong><br>
 This signal is available in DynamicFormService which is used to patch formdetails for the edit page.</p>
 <h2 id="control-types">Control Types</h2>
 <p><strong>1. TEXT</strong></p>
@@ -452,6 +452,37 @@ slideToggleDetails: [
     },
 ]
 controls: [[..]]
+}
+</code></pre>
+<p><strong>6.  FormArray:</strong></p>
+<pre><code>//HTML
+@if(formArrayDetail.length){
+    @for(formGroup  of  formArrayDetail;track  $index){
+	    &lt;zen-dynamic-form  [groupDetails]="formGroup"  [groupName]="$index(onButtonClick)="emitFromButton($event)"(onFormChange)="emitFromGroup($event)"&gt;  &lt;/zen-dynamic-form&gt;
+	    }
+}
+
+//TS
+formArrayDetail: DynamicFormGroup[][][] = [];
+formGroupDetail: DynamicFormGroup[][] = [[
+  {
+   controls: [
+	   [ { controlName:  'userName', controlLabel:  'User Name',type:  DynamicFormControls.TEXT,},
+	   ]
+	]
+	}
+]]
+
+ngOnInit(){
+	this.formArrayDetail.push(this.formGroupDetail);
+	this.formArrayDetail.push(this.formGroupDetail);
+}
+
+//For patching value:
+patchFormArray(index: number) {
+ this.dynamicFormService.formUpdateDetails.set(
+ { groupName:  index, updateValues: { userName:  'XYZXYZXYZ', mobNo:  '9875642103' }}
+)
 }
 </code></pre>
 </div>
