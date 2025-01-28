@@ -478,12 +478,21 @@ ngOnInit(){
 	this.formArrayDetail.push(this.formGroupDetail);
 }
 
-//For patching value:
+//For patching single template value:
 patchFormArray(index: number) {
  this.dynamicFormService.formUpdateDetails.set(
  { groupName:  index, updateValues: { userName:  'XYZXYZXYZ', mobNo:  '9875642103' }}
 )
 }
+ 
+ or
+ 
+//For patching multiple template value at same time
+const  updateDetails = [ 
+{ groupName:  0,updateValues: { userName:  'Naveen'}},
+{ groupName:  1,updateValues: { userName:  'Amaressh'}}
+]
+this.dynamicFormService.updateMultipleForm.set(updateDetails);
 </code></pre>
 </div>
 </body>
