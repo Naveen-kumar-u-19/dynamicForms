@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zen-dynamic-form</title>
+  <title>Zen-dynamic-form (1).md</title>
   <link rel="stylesheet" href="https://stackedit.io/style.css" />
 </head>
 
@@ -121,14 +121,20 @@ This signal is available in DynamicFormService which is used to patch formdetail
 	    prefixIcon:{
 		    iconName: 'ICON_NAME',
 		    toolTip: '',
-		    generateRandomeCode: TRUE | FALSE
+		    generateRandomeCode: TRUE | FALSE,
+		    emitValue:''
 	    },
 	    suffixIcon:{
 		    iconName: 'ICON_NAME',
 		    toolTip: '',
-		    generateRandomeCode: TRUE | FALSE
+		    generateRandomeCode: TRUE | FALSE,
+		    emitValue:''
 	    },
-    }
+    },
+    prefixImage:{
+		imageUrl:  './assets/facebook.png';
+		alt:  '';
+	}
 }
 </code></pre>
 <p><strong>2. PASSWORD</strong></p>
@@ -253,7 +259,40 @@ timePicker: {
 validatorDetails: [
 { validatorType:  ValidatorTypes.required, validatorMessage:  'Start time is required' }
 ]
+}
+</code></pre>
+<p><strong>12. DATERANGEPICKER</strong></p>
+<pre><code>{
+type:  DynamicFormControls.DATERANGEPICKER,
+controlName:  'Date Range',
+controlLabel: 'DateRange',
+dateOptions:{
+minStartDate: '01-01-2025',
+maxStartDate: '11-25-2025',
+defaultStartDate: '02-01-2025'
 },
+validatorDetails: [
+{ validatorType:  ValidatorTypes.required, validatorMessage:  Date is required' }
+]   
+} 
+</code></pre>
+<p><strong>13. SLIDER</strong></p>
+<pre><code>{
+	type:  DynamicFormControls.SLIDER,
+	controlName:  "height",
+	controlLabel:  'Select Size',
+	slider: {
+		type:  'range'|'basic',
+		defaultValue:  10,
+		minRange:  0,
+		maxRange:  100,
+		fromValue:  10,
+		toValue:  20,
+		hideRangeLabel:  false,
+		stepRange:  0.5,
+		currencyUnit:  'INR'
+	}
+}
 </code></pre>
 <h2 id="special-condition">Special Condition</h2>
 <p><strong>1. showOptionBasedOn?: ShowOptionBasedOn[];</strong><br>
@@ -290,6 +329,13 @@ validatorDetails: [
 { validatorType:  ValidatorTypes.maxLength, validatorValue:  50, validatorMessage:  'Title should not
 exceed 50 characters' },
 ],
+//async processing loader
+asyncLoaderDetails: {
+    showAsyncLoader: true,
+    asyncProcessingMsg: 'Processing option name',
+    asyncConfirmationMsg: 'option name is valid.',
+    asyncErrorMsg: Something went wrong'
+},
 dynamicValidatorDetails: [
 //async validators with type InBuilt.
 {
@@ -298,7 +344,8 @@ inBuiltValidators: {
     validatorType:  ValidatorTypes.minLength,
     validatorValue:  3,
     validatorMessage:  'Title should contains minimum 3 charcters',
-},
+}
+}
 //async validators with type Async.
 {
 type:  'API',
@@ -311,8 +358,7 @@ apiValidators:  {
 	      method:  'QUERY', //Graphql Method
           path: 'checkTimerExistence.exist' //Path to check with api response
          }
-}
-}
+},
 ]} as  DynamicFormDetails
 </code></pre>
 <p><strong>3. updateValidatorOn?: UpdateValidatorOn[];</strong><br>
@@ -493,6 +539,27 @@ const  updateDetails = [
 { groupName:  1,updateValues: { userName:  'Amaressh'}}
 ]
 this.dynamicFormService.updateMultipleForm.set(updateDetails);
+</code></pre>
+<p><strong>7.  Set and Remove custom Error:</strong><br>
+It is used to set and remove custom error from parent component.</p>
+<pre><code>//HTML
+&lt;zen-dynamic-form  fxFlex="90"  [groupDetails]="groupDetails"  [updateProperty]="updateProperty"&gt;&lt;/zen-dynamic-form&gt;
+//TS
+setError() { 
+    this.updateProperty.emit({
+	    setCustomError: {
+	    controlName:  'textBox',
+	    validatorMessage:  'Value should be greater than 200'
+	    }
+    })
+}
+removeError() {
+	this.updateProperty.emit({
+		removeCustomError: {
+			controlName:  'textBox',
+		}
+	})
+}
 </code></pre>
 </div>
 </body>
