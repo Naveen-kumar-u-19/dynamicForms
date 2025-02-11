@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zen-dynamic-form (1).md</title>
+  <title>Zen-dynamic-form (3).md</title>
   <link rel="stylesheet" href="https://stackedit.io/style.css" />
 </head>
 
@@ -105,6 +105,11 @@ It is used to identify groupName for formArray</p>
 </code></pre>
 <p><strong>6. formUpdateDetails: WritableSignal&lt;UpdateFormDetails | null&gt; = signal(null);</strong><br>
 This signal is available in DynamicFormService which is used to patch formdetails for the edit page.</p>
+<p><strong>7. @Input() readOnly!: boolean;</strong><br>
+This input variable is used to configure the form in read-only mode.</p>
+<pre><code>//HTML
+&lt;zen-dynamic-form  [readOnly]="true" [groupDetails]="groupDetails&gt;&lt;/zen-dynamic-form&gt;
+</code></pre>
 <h2 id="control-types">Control Types</h2>
 <p><strong>1. TEXT</strong></p>
 <pre><code>{
